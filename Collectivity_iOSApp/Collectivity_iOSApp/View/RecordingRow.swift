@@ -19,7 +19,7 @@ struct RecordingRow: View{
     @State private var showAlert = false
     var body: some View {
         HStack{
-            //Recording Info
+            //recording Info
             VStack(alignment: .leading, spacing: 5){
                 Text("No. \(recording.sequence)")
                     .font(.headline)
@@ -41,14 +41,14 @@ struct RecordingRow: View{
             .padding(.trailing, 10)
             
             
-            //Delete Button with Haptic Feedback
+            //delete Button with Haptic Feedback
             
             Button{
-                //Trigger Haptic Feedback
+                //trigger Haptic Feedback
                 let impactSoft = UIImpactFeedbackGenerator(style: .soft)
                 impactSoft.impactOccurred()
                 
-                //Show confimation alert
+                //show confimation alert
                 showAlert = true
             }label: {
                 Image(systemName: "trash.fill")
