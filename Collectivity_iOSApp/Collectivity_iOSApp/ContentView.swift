@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    let today = Date.now
+    let userData = User.data
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            ScrollView{
+                
+                DailyGratitude(user: userData)
+                Prompts()
+                Reflections()
+            }
+            .scrollIndicators(.hidden)
+            .navigationTitle("\(today.formatted(date: .long, time:.omitted))")
         }
-        .padding()
     }
 }
 

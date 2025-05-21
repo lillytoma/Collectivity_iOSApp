@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Collectivity_iOSApp: App {
@@ -13,5 +14,6 @@ struct Collectivity_iOSApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Reflection.self)
     }
 }
