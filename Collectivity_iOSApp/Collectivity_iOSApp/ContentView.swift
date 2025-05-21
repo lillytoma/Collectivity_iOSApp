@@ -15,7 +15,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView{
-                
                 DailyGratitude(user: userData)
                 Prompts()
                 Reflections()

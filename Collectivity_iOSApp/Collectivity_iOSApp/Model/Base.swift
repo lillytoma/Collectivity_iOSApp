@@ -17,7 +17,7 @@ enum categories{
 
 @Observable class User{
     static let data = User()
-    
+
     var navTitle: String = ""
     
     var dailyGratification : [String] = ["","",""]
@@ -42,10 +42,36 @@ enum categories{
     }
 }
 
-struct Prompt: Identifiable{
+class Prompt: Identifiable{
     let id: UUID = UUID()
     let name: String
     let category: categories
     let isComplete: Bool = false
+    let suggestion: String = ""
     let desc: String = ""
+    let pros: String = ""
+    let cons: String = ""
+    let funFact: String = ""
+    var infoArray: [infoStruct] = [
+        infoStruct( nameOfCategory: "suggestion", descriptionOfCategory: "Give me a grape"),
+        infoStruct( nameOfCategory: "pros", descriptionOfCategory: "Give me a pro"),
+        infoStruct( nameOfCategory: "cons", descriptionOfCategory: "Give me a con"),
+        infoStruct( nameOfCategory: "fun fact", descriptionOfCategory: "Give me a fact")
+    ]
+    init(name: String, category: categories) {
+        self.name = name
+        self.category = category
+    }
+}
+
+struct infoStruct: Identifiable{
+    let id: UUID = UUID()
+    let nameOfCategory: String
+    let descriptionOfCategory: String
+    let isShowing: Bool = false
+    
+    init(nameOfCategory: String, descriptionOfCategory: String) {
+        self.nameOfCategory = nameOfCategory
+        self.descriptionOfCategory = descriptionOfCategory
+    }
 }
