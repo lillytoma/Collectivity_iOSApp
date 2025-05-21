@@ -64,7 +64,7 @@ struct VoiceRecordingView: View {
             currentlyPlaying = nil
         }
     }
-    //Handle play action
+    //handles play action
     private func handlePlayAction(for recording: Recording) {
         if currentlyPlaying == recording.url {
             audioRecorder.stopRecording()
@@ -89,10 +89,10 @@ struct RecordButton: View {
     
     var body: some View {
         Button {
-            // Toggle Recording state
+            // toggle Recording state
             isRecording.toggle()
             
-            // Trigger Haptic Feedback
+            // trigger Haptic Feedback
             let impactMed = UIImpactFeedbackGenerator(style: .medium)
             impactMed.impactOccurred()
             
