@@ -9,7 +9,7 @@ import Foundation
 import Observation
 import SwiftData
 
-enum categories{
+enum categories: Codable{
     case communication
     case empathy
     case awareness
@@ -33,25 +33,18 @@ enum categories{
     private init() {}
 }
 
-@Model class Reflection {
-    var name: String = ""
-    var pinned: Bool = false
-    
-    init(name: String) {
-        self.name = name
-    }
-}
 
-class Prompt: Identifiable{
-    let id: UUID = UUID()
+
+struct Prompt: Identifiable, Codable{
+    var id: UUID = UUID()
     let name: String
     let category: categories
-    let isComplete: Bool = false
-    let suggestion: String = ""
-    let desc: String = ""
-    let pros: String = ""
-    let cons: String = ""
-    let funFact: String = ""
+    var isComplete: Bool = false
+    var suggestion: String = ""
+    var desc: String = ""
+    var pros: String = ""
+    var cons: String = ""
+    var funFact: String = ""
     var infoArray: [infoStruct] = [
         infoStruct( nameOfCategory: "suggestion", descriptionOfCategory: "Give me a grape"),
         infoStruct( nameOfCategory: "pros", descriptionOfCategory: "Give me a pro"),
@@ -63,12 +56,12 @@ class Prompt: Identifiable{
         self.category = category
     }
 }
-
-struct infoStruct: Identifiable{
+@Observable
+class infoStruct: Identifiable, Observable, Codable{
     let id: UUID = UUID()
     let nameOfCategory: String
     let descriptionOfCategory: String
-    let isShowing: Bool = false
+    var isShowing: Bool = false
     
     init(nameOfCategory: String, descriptionOfCategory: String) {
         self.nameOfCategory = nameOfCategory

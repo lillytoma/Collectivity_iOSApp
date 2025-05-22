@@ -17,7 +17,7 @@ struct Prompts: View {
                 HStack(){
             //TabView{
                     ForEach(data.prompts){ prompt in
-                        NavigationLink(destination: Text("Empty")){
+                        NavigationLink(destination: PromptView(prompt: prompt)){
                             Text(prompt.name)
                                 .frame(maxWidth: .infinity,maxHeight: .infinity)
                                 .padding()
