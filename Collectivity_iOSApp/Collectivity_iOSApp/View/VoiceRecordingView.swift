@@ -6,66 +6,86 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct VoiceRecordingView: View {
+    
+    var prompt: Prompt
     @StateObject private var audioRecorder = AudioRecorder()
     @State private var isRecording = false
     @State private var currentlyPlaying: URL? = nil
     
     var body: some View {
-        ZStack {
-            Color.black.ignoresSafeArea()
-            VStack(spacing: 30) {
-                
-                Text("Audio Recorder")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-                    .padding(.top, 20)
-                
-                // record Button
-                RecordButton(isRecording: $isRecording, audioRecorder: audioRecorder)
-
-                // rec list
-                Text("Recordings")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.gray)
-                    .padding(.top, 10)
-                
-                ScrollView {
-                    LazyVStack(spacing: 15) {
-                        ForEach(audioRecorder.recordings) { recording in
-                            RecordingRowView(
-                                recording: recording,
-                                isPlaying: currentlyPlaying == recording.url,
-                                onPlay: {
-                                    handlePlayAction(for: recording)
-                                },
-                                onDelete: {
-                                    handleDeleteAction(for: recording)
-                                }
-                            )
-                            .background(currentlyPlaying == recording.url ? Color.blue : Color.gray.opacity(0.5))
-                            .cornerRadius(10)
-                            .transition(.slide)
-                            .animation(.easeInOut, value: audioRecorder.recordings)
+        NavigationStack{
+            ZStack {
+                Color.black.ignoresSafeArea()
+                VStack(spacing: 30) {
+                    
+                    Text("Audio Recorder")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                        .padding(.top, 20)
+                    
+                    // record Button
+                    RecordButton(isRecording: $isRecording, audioRecorder: audioRecorder)
+                    
+//                    // rec list
+//                    Text("Recordings")
+//                        .font(.title2)
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.gray)
+//                        .padding(.top, 10)
+                    
+                    ScrollView {
+                        LazyVStack(spacing: 15) {
+//                            ForEach(audioRecorder.recordings) { recording in
+                            if let guardedRecording = audioRecorder.recording {
+                                RecordingRowView(
+                                    recording: guardedRecording,
+                                    isPlaying: currentlyPlaying == guardedRecording.url,
+                                    onPlay: {
+                                        handlePlayAction(for: guardedRecording)
+                                    },
+                                    onDelete: {
+                                        handleDeleteAction(for: guardedRecording)
+                                    }
+                                    
+                                )
+                            }
+                                //.background(currentlyPlaying == AudioRecorder.recording.url ? Color.blue : Color.gray.opacity(0.5))
+                                //.cornerRadius(10)
+                                //.transition(.slide)
+                                //.animation(.easeInOut, value: audioRecorder.recordings)
+//                            }
+                            
+                        }
+                        .padding()
+                    }
+                    
+                }
+                .toolbar{
+                    ToolbarItem{
+                        Button{
+                        }label:{
+                            Image(systemName: "play")
+                                .foregroundStyle(.white)
                         }
                     }
-                    .padding()
                 }
+                .padding()
             }
-            .padding()
+            .onAppear {
+                audioRecorder.fetchRecordings()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .playbackFinished)) { _ in
+                currentlyPlaying = nil
+            }
         }
-        .onAppear {
-            audioRecorder.fetchRecordings()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .playbackFinished)) { _ in
-            currentlyPlaying = nil
-        }
+        
     }
     //handles play action
-    private func handlePlayAction(for recording: Recording) {
+     private func handlePlayAction(for recording: Recording) {
         if currentlyPlaying == recording.url {
             audioRecorder.stopRecording()
             currentlyPlaying = nil
@@ -78,7 +98,7 @@ struct VoiceRecordingView: View {
         }
     }
     
-    private func handleDeleteAction(for recording: Recording) {
+     private func handleDeleteAction(for recording: Recording) {
         audioRecorder.deleteRecording(url: recording.url)
     }
 }
@@ -95,6 +115,7 @@ struct RecordButton: View {
             // trigger Haptic Feedback
             let impactMed = UIImpactFeedbackGenerator(style: .medium)
             impactMed.impactOccurred()
+            
             
             if isRecording {
                 audioRecorder.startRecording()
@@ -115,9 +136,10 @@ struct RecordButton: View {
             .scaleEffect(isRecording ? 1.1 : 1.0)
             .animation(.spring(), value: isRecording)
         }
+        
+        }
     }
-}
-
+        
 struct RecordingRowView: View {
     var recording: Recording
     var isPlaying: Bool
@@ -136,6 +158,6 @@ struct RecordingRowView: View {
 
 
 
-#Preview {
-    VoiceRecordingView()
-}
+//#Preview {
+//    VoiceRecordingView()
+//}

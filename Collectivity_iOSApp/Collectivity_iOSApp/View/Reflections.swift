@@ -23,7 +23,7 @@ struct Reflections: View {
         
         NavigationStack{
             NavigationLink(){
-                Log()
+               // Log()
             }label:{
                 SectionTitle(title: "Reflections")
             }

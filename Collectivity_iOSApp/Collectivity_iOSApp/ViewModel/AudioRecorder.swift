@@ -12,7 +12,8 @@ import AVFoundation
 // observable class responsible for handling audio recording and playback.
 class AudioRecorder: NSObject, ObservableObject, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
     
-    @Published var recordings: [Recording] = [] //where we will store all our recordings (in an array)
+    @Published var recording: Recording?
+   // @Published var recordings: [Recording] = [] //where we will store all our recordings (in an array)
     @Published var audioLevels: [CGFloat] = Array(repeating: 20, count: 30) // Init with default values
     
     private var audioRecorder: AVAudioRecorder? //this is used to do the "recording"
@@ -48,16 +49,17 @@ class AudioRecorder: NSObject, ObservableObject, AVAudioPlayerDelegate, AVAudioR
     
     // starts recording audio
     func startRecording() {
-        let sequence = (recordings.last?.sequence ?? 0) + 1 //break this line down, if fileName isnt being used then so is this
+        
+       // let sequence = (recordings.last?.sequence ?? 0) + 1 //break this line down, if fileName isnt being used then so is this
         let formatter = DateFormatter() //to format the date
         formatter.dateFormat = "yyyyMMdd_HHmss" //**isnt being used most likely, or being stored somewhere in the backend
         let dateString = formatter.string(from: Date())
         //print(dateString) //is it why is it not printing anything
-        let fileName = "Recording_\(sequence)_\(dateString).m4a"
+        let fileName = "Recording_\(dateString).m4a"
         
         // get the document directory path
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
-        
+//        
         // define audio recording settings
         let settings: [String: Any] = [ //**why is the "Any key word used here"
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC), // aAC format
@@ -107,7 +109,7 @@ class AudioRecorder: NSObject, ObservableObject, AVAudioPlayerDelegate, AVAudioR
             }
             
             // sort recordings by sequence
-            recordings = fetchedRecordings.sorted(by: { $0.sequence < $1.sequence })
+            //recordings = fetchedRecordings.sorted(by: { $0.sequence < $1.sequence })
         } catch {
             // handle errors in fetching files
             print("Failed to fetch files \(error.localizedDescription)")
@@ -121,7 +123,7 @@ class AudioRecorder: NSObject, ObservableObject, AVAudioPlayerDelegate, AVAudioR
             try FileManager.default.removeItem(at: url)
             
             // Update the recordings array by filtering out the deleted file
-            recordings.removeAll { $0.url == url }
+           // recordings.removeAll { $0.url == url }
             
             // Optionally, you can call fetchRecordings again to reload the list
             fetchRecordings()

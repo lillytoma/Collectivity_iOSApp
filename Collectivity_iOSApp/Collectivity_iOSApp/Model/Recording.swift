@@ -8,9 +8,25 @@
 import Foundation
 import SwiftUI
 import Combine
+import SwiftData
 
-struct Recording: Identifiable, Equatable {
-    let id = UUID()
+
+@Model class Reflection{
+    var name: String = ""
+    var pinned: Bool = false
+    var prompt: Prompt
+    var recording: Recording?
+    var journal: String = ""
+    
+    init(name: String, prompt: Prompt) {
+        self.name = name
+        self.prompt = prompt
+        //self.recording = recording
+    }
+}
+
+struct Recording: Identifiable, Equatable, Codable {
+    var id = UUID()
     let url: URL
     let date: Date
     let sequence: Int
