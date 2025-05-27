@@ -10,9 +10,9 @@ import Observation
 import SwiftData
 
 enum categories: Codable{
-    case communication
-    case empathy
-    case awareness
+    case Communication
+    case Empathy
+    case Awareness
 }
 
 @Observable class User{
@@ -23,9 +23,9 @@ enum categories: Codable{
     var dailyGratification : [String] = ["","",""]
     
     var prompts: [Prompt] = [
-        Prompt(name: "Good", category: .communication),
-        Prompt(name: "Bad", category: .empathy),
-        Prompt(name: "Ugly", category: .awareness)
+        Prompt(name: "Remind someone to smile more", category: .Communication),
+        Prompt(name: "Ask someone how their day is going", category: .Empathy),
+        Prompt(name: "Read the body language of the next person you talk to", category: .Awareness)
     ]
     
     var selectedPrompt: categories?

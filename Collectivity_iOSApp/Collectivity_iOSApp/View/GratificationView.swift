@@ -41,7 +41,6 @@ struct GratificationView: View{
             HStack{
                 ForEach(userData.dailyGratification, id: \.self){ dg in
                     Image(systemName: dg.isEmpty ? "circle" : "circle.fill")
-                    //.foregroundStyle(dg.isEmpty ? .black : .clear)
                         .padding()
                 }
             }
