@@ -35,7 +35,7 @@ enum categories: Codable{
 
 
 
-struct Prompt: Identifiable, Codable{
+class Prompt: Identifiable{
     var id: UUID = UUID()
     var name: String
     var category: categories
@@ -46,9 +46,7 @@ struct Prompt: Identifiable, Codable{
     var cons: String = ""
     var funFact: String = ""
     
-    
-    var reflection: Reflection
-    
+
     
     var infoArray: [infoStruct] = [
         infoStruct( nameOfCategory: "suggestion", descriptionOfCategory: "Give me a grape"),
@@ -59,8 +57,6 @@ struct Prompt: Identifiable, Codable{
     init(name: String, category: categories) {
         self.name = name
         self.category = category
-        self.reflection = Reflection(name: "", prompt: self)
-        
     }
 }
 
