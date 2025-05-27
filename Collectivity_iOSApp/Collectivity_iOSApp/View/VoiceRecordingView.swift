@@ -30,51 +30,45 @@ struct VoiceRecordingView: View {
                     // record Button
                     RecordButton(isRecording: $isRecording, audioRecorder: audioRecorder)
                     
-//                    // rec list
-//                    Text("Recordings")
-//                        .font(.title2)
-//                        .fontWeight(.semibold)
-//                        .foregroundColor(.gray)
-//                        .padding(.top, 10)
+                    // rec list
+                    Text("Recordings")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
+                        .padding(.top, 10)
                     
                     ScrollView {
                         LazyVStack(spacing: 15) {
-//                            ForEach(audioRecorder.recordings) { recording in
-                            if let guardedRecording = audioRecorder.recording {
+                            ForEach(audioRecorder.recordings) { recording in
                                 RecordingRowView(
-                                    recording: guardedRecording,
-                                    isPlaying: currentlyPlaying == guardedRecording.url,
+                                    recording: recording,
+                                    isPlaying: currentlyPlaying == recording.url,
                                     onPlay: {
-                                        handlePlayAction(for: guardedRecording)
+                                        handlePlayAction(for: recording)
                                     },
                                     onDelete: {
-                                        handleDeleteAction(for: guardedRecording)
+                                        handleDeleteAction(for: recording)
                                     }
-                                    
                                 )
+                                .background(currentlyPlaying == recording.url ? Color.blue : Color.gray.opacity(0.5))
+                                .cornerRadius(10)
+                                .transition(.slide)
+                                .animation(.easeInOut, value: audioRecorder.recordings)
                             }
-                                //.background(currentlyPlaying == AudioRecorder.recording.url ? Color.blue : Color.gray.opacity(0.5))
-                                //.cornerRadius(10)
-                                //.transition(.slide)
-                                //.animation(.easeInOut, value: audioRecorder.recordings)
-//                            }
-                            
                         }
                         .padding()
-                    }
-                    
-                }
-                .toolbar{
-                    ToolbarItem{
-                        Button{
-                        }label:{
-                            Image(systemName: "play")
-                                .foregroundStyle(.white)
-                        }
                     }
                 }
                 .padding()
             }
+            .toolbar{
+                Button{
+                    
+                }label: {
+                    Image(systemName: "play")
+                }
+            }
+            
             .onAppear {
                 audioRecorder.fetchRecordings()
             }
@@ -82,10 +76,9 @@ struct VoiceRecordingView: View {
                 currentlyPlaying = nil
             }
         }
-        
     }
     //handles play action
-     private func handlePlayAction(for recording: Recording) {
+    private func handlePlayAction(for recording: Recording) {
         if currentlyPlaying == recording.url {
             audioRecorder.stopRecording()
             currentlyPlaying = nil
@@ -98,7 +91,7 @@ struct VoiceRecordingView: View {
         }
     }
     
-     private func handleDeleteAction(for recording: Recording) {
+    private func handleDeleteAction(for recording: Recording) {
         audioRecorder.deleteRecording(url: recording.url)
     }
 }
@@ -115,7 +108,6 @@ struct RecordButton: View {
             // trigger Haptic Feedback
             let impactMed = UIImpactFeedbackGenerator(style: .medium)
             impactMed.impactOccurred()
-            
             
             if isRecording {
                 audioRecorder.startRecording()
@@ -136,10 +128,9 @@ struct RecordButton: View {
             .scaleEffect(isRecording ? 1.1 : 1.0)
             .animation(.spring(), value: isRecording)
         }
-        
-        }
     }
-        
+}
+
 struct RecordingRowView: View {
     var recording: Recording
     var isPlaying: Bool
@@ -158,6 +149,6 @@ struct RecordingRowView: View {
 
 
 
-//#Preview {
-//    VoiceRecordingView()
-//}
+#Preview {
+    VoiceRecordingView()
+}

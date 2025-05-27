@@ -7,26 +7,27 @@
 //creating branch
 import Foundation
 import SwiftUI
-import Combine
 import SwiftData
+import Combine
 
-
-@Model class Reflection{
+@Model class Reflection {
     var name: String = ""
     var pinned: Bool = false
-    var prompt: Prompt
-    var recording: Recording?
-    var journal: String = ""
+    let prompt: Prompt
+    //var date: Date
     
-    init(name: String, prompt: Prompt) {
+    var recording: Recording
+    var writing: String = ""
+    
+    init(name: String, prompt: Prompt, recording: Recording) {
         self.name = name
         self.prompt = prompt
-        //self.recording = recording
+        self.recording = recording
     }
 }
 
 struct Recording: Identifiable, Equatable, Codable {
-    var id = UUID()
+    let id = UUID()
     let url: URL
     let date: Date
     let sequence: Int

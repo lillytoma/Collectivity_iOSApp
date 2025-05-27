@@ -10,9 +10,9 @@ import Observation
 import SwiftData
 
 enum categories: Codable{
-    case communication
-    case empathy
-    case awareness
+    case Communication
+    case Empathy
+    case Awareness
 }
 
 @Observable class User{
@@ -23,9 +23,9 @@ enum categories: Codable{
     var dailyGratification : [String] = ["","",""]
     
     var prompts: [Prompt] = [
-        Prompt(name: "Good", category: .communication),
-        Prompt(name: "Bad", category: .empathy),
-        Prompt(name: "Ugly", category: .awareness)
+        Prompt(name: "Remind someone to smile more", category: .Communication),
+        Prompt(name: "Ask someone how their day is going", category: .Empathy),
+        Prompt(name: "Read the body language of the next person you talk to", category: .Awareness)
     ]
     
     var selectedPrompt: categories?
@@ -35,19 +35,16 @@ enum categories: Codable{
 
 
 
-class Prompt: Identifiable{
+struct Prompt: Identifiable, Codable{
     var id: UUID = UUID()
-    var name: String
-    var category: categories
+    let name: String
+    let category: categories
     var isComplete: Bool = false
     var suggestion: String = ""
     var desc: String = ""
     var pros: String = ""
     var cons: String = ""
     var funFact: String = ""
-    
-
-    
     var infoArray: [infoStruct] = [
         infoStruct( nameOfCategory: "suggestion", descriptionOfCategory: "Give me a grape"),
         infoStruct( nameOfCategory: "pros", descriptionOfCategory: "Give me a pro"),
@@ -59,10 +56,9 @@ class Prompt: Identifiable{
         self.category = category
     }
 }
-
 @Observable
-class infoStruct: Identifiable, Codable{
-    var id: UUID = UUID()
+class infoStruct: Identifiable, Observable, Codable{
+    let id: UUID = UUID()
     let nameOfCategory: String
     let descriptionOfCategory: String
     var isShowing: Bool = false

@@ -22,6 +22,7 @@ struct ContentView: View {
             .scrollIndicators(.hidden)
             .navigationTitle("\(today.formatted(date: .long, time:.omitted))")
         }
+        .preferredColorScheme(.light)
     }
 }
 
