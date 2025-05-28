@@ -13,74 +13,86 @@ struct PromptView: View {
     let user = User.data
     @State var prompt: Prompt
     @State var isShowing: Bool = false
+    @State var isShowingRecordJournal: Bool = false
     var body: some View {
-        
-        ScrollView{
-            ZStack{
-                
-                VStack(spacing: 15){
-                    Text("\(prompt.category)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    //Text("\(today.formatted(date: .long, time:.omitted))")
-                        .font(.caption)
+        NavigationStack{
+            ScrollView{
+                ZStack{
                     
-                    Text("\(prompt.name)")
-                    
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, 50)
-            .padding(.bottom, 35)
-            .padding()
-            .background(getActivityColor(category: prompt.category))
-            VStack{
-                Text("\(prompt.desc)")
-                
-                
-                Text("More Information")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                ForEach(prompt.infoArray.indices, id:\.self){ index in
-                    VStack(){
-                        Button{
-                            
-                            prompt.infoArray[index].isShowing.toggle()
-                        }label: {
-                            HStack{
-                                Text("\(prompt.infoArray[index].nameOfCategory)".capitalized)
-                                    .foregroundStyle(.black)
-                                Spacer()
-
-                                Image(systemName: prompt.infoArray[index].isShowing ? "chevron.up" : "chevron.down")
-                                    .foregroundStyle(.black)
-                            }
-                        }
-                        .padding()
-                        if(prompt.infoArray[index].isShowing){
-                            Divider()
-                            Text("\(prompt.infoArray[index].descriptionOfCategory)")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding()
-                        }
+                    VStack(spacing: 15){
+                        Text("\(prompt.category)")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        //Text("\(today.formatted(date: .long, time:.omitted))")
+                            .font(.caption)
+                        
+                        Text("\(prompt.name)")
                         
                     }
-                    .background(.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    //.padding()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 50)
+                .padding(.bottom, 35)
+                .padding()
+                .background(getActivityColor(category: prompt.category))
+                VStack{
+                    Text("\(prompt.desc)")
+                    
+                    
+                    Text("More Information")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                    ForEach(prompt.infoArray.indices, id:\.self){ index in
+                        VStack(){
+                            Button{
+                                
+                                prompt.infoArray[index].isShowing.toggle()
+                            }label: {
+                                HStack{
+                                    Text("\(prompt.infoArray[index].nameOfCategory)".capitalized)
+                                        .foregroundStyle(.black)
+                                    Spacer()
+                                    
+                                    Image(systemName: prompt.infoArray[index].isShowing ? "chevron.up" : "chevron.down")
+                                        .foregroundStyle(.black)
+                                }
+                            }
+                            .padding()
+                            if(prompt.infoArray[index].isShowing){
+                                Divider()
+                                Text("\(prompt.infoArray[index].descriptionOfCategory)")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                            }
+                            
+                        }
+                        .background(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        //.padding()
+                        
+                    }
+
+                        Button(){
+                            isShowingRecordJournal.toggle()
+                        }label:{
+                            Text("Record Journal")
+                                .padding()
+                                .padding(.horizontal)
+                                .background(getActivityColor(category: prompt.category))
+                                .cornerRadius(10)
+                                .padding(.top, 30)
+                        }
+                        .sheet(isPresented: $isShowingRecordJournal) {
+                            RecordJournalView()
+                        }
                     
                 }
-                Text("Record Journal")
-                    .padding()
-                    .padding(.horizontal)
-                    .background(getActivityColor(category: prompt.category))
-                    .cornerRadius(10)
-                    .padding(.top, 30)
             }
+            
+            .ignoresSafeArea()
+            .background(Color(UIColor.systemGray6))
         }
-        .ignoresSafeArea()
-        .background(Color(UIColor.systemGray6))
     }
     func getActivityColor(category: categories) -> Color {
         switch category{
