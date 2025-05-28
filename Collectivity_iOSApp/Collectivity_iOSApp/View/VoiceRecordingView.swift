@@ -6,11 +6,8 @@
 //
 
 import SwiftUI
-import Foundation
 
 struct VoiceRecordingView: View {
-    
-    var prompt: Prompt
     @StateObject private var audioRecorder = AudioRecorder()
     @State private var isRecording = false
     @State private var currentlyPlaying: URL? = nil
@@ -39,22 +36,22 @@ struct VoiceRecordingView: View {
                     
                     ScrollView {
                         LazyVStack(spacing: 15) {
-                            ForEach(audioRecorder.recordings) { recording in
-                                RecordingRowView(
-                                    recording: recording,
-                                    isPlaying: currentlyPlaying == recording.url,
-                                    onPlay: {
-                                        handlePlayAction(for: recording)
-                                    },
-                                    onDelete: {
-                                        handleDeleteAction(for: recording)
-                                    }
-                                )
-                                .background(currentlyPlaying == recording.url ? Color.blue : Color.gray.opacity(0.5))
-                                .cornerRadius(10)
-                                .transition(.slide)
-                                .animation(.easeInOut, value: audioRecorder.recordings)
-                            }
+//                            ForEach(audioRecorder.recordings) { recording in
+//                                RecordingRowView(
+//                                    recording: recording,
+//                                    isPlaying: currentlyPlaying == recording.url,
+//                                    onPlay: {
+//                                        handlePlayAction(for: recording)
+//                                    },
+//                                    onDelete: {
+//                                        handleDeleteAction(for: recording)
+//                                    }
+//                                )
+//                                .background(currentlyPlaying == recording.url ? Color.blue : Color.gray.opacity(0.5))
+//                                .cornerRadius(10)
+//                                .transition(.slide)
+//                                .animation(.easeInOut, value: audioRecorder.recordings)
+//                            }
                         }
                         .padding()
                     }
