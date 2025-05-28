@@ -15,6 +15,7 @@ struct SectionTitle: View {
             
             Text(title)
                 .font(.title)
+                .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
         }

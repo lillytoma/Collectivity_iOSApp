@@ -15,14 +15,20 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView{
+                StreakBar()
                 DailyGratitude(user: userData)
                 Prompts()
                 Reflections()
             }
             .scrollIndicators(.hidden)
-            .navigationTitle("\(today.formatted(date: .long, time:.omitted))")
+//            .navigationTitle("\(today.formatted(date: .long, time:.omitted))")
+            .navigationTitle("Collectivity")
+            
+            .background(Color(UIColor.systemGray6))
         }
+        
         .preferredColorScheme(.light)
+        
     }
 }
 

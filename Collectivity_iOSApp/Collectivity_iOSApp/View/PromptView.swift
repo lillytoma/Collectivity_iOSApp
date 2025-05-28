@@ -15,41 +15,40 @@ struct PromptView: View {
     @State var isShowing: Bool = false
     @State var isShowingRecordJournal: Bool = false
     var body: some View {
-        NavigationStack{
-            ScrollView{
-                ZStack{
+        ScrollView{
+            ZStack{
+                
+                VStack(spacing: 15){
+                    Text("\(prompt.category)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    //Text("\(today.formatted(date: .long, time:.omitted))")
+                        .font(.caption)
                     
-                    VStack(spacing: 15){
-                        Text("\(prompt.category)")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        //Text("\(today.formatted(date: .long, time:.omitted))")
-                            .font(.caption)
-                        
-                        Text("\(prompt.name)")
-                        
-                    }
+                    Text("\(prompt.name)")
+                    
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.top, 50)
-                .padding(.bottom, 35)
-                .padding()
-                .background(getActivityColor(category: prompt.category))
-                VStack{
-                    Text("\(prompt.desc)")
-                    
-                    
-                    Text("More Information")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                    ForEach(prompt.infoArray.indices, id:\.self){ index in
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 50)
+            .padding(.bottom, 35)
+            .padding()
+            .background(getActivityColor(category: prompt.category))
+            VStack{
+                
+                
+                Text("More Information")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                ForEach(prompt.infoArray.indices, id:\.self){ index in
+                    if prompt.infoArray[index].nameOfCategory != .journalReflection{
                         VStack(){
                             Button{
                                 
                                 prompt.infoArray[index].isShowing.toggle()
                             }label: {
                                 HStack{
-                                    Text("\(prompt.infoArray[index].nameOfCategory)".capitalized)
+                                    Text("\(prompt.infoArray[index].nameOfCategory.rawValue  )")
                                         .foregroundStyle(.black)
                                     Spacer()
                                     
@@ -94,18 +93,8 @@ struct PromptView: View {
             .background(Color(UIColor.systemGray6))
         }
     }
-    func getActivityColor(category: categories) -> Color {
-        switch category{
-        case .Communication:
-            return .commC
-        case .Empathy:
-            return .empathyC
-        case .Awareness:
-            return .awareC
-        }
-    }
 }
 
-#Preview {
-    PromptView(prompt: Prompt(name: "Practice Active Listening", category: .Communication))
-}
+//#Preview {
+//    PromptView(prompt:)
+//}

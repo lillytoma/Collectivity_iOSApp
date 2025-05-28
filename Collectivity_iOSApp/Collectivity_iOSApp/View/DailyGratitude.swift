@@ -12,19 +12,21 @@ struct DailyGratitude: View {
     
     var body: some View {
         NavigationStack{
+            
+            SectionTitle(title: "Daily Gratification")
             NavigationLink(destination: GratificationView(text: user.dailyGratification)){
-                SectionTitle(title: "Daily Gratification")
-            }
-            VStack {
-                ForEach(user.dailyGratification, id: \.self){ dg in
-                    Text(dg)
+                VStack {
+                    ForEach(user.dailyGratification, id: \.self){ dg in
+                        Text(dg)
+                            .foregroundStyle(.black)
+                    }
                 }
+                .frame(height: 300)
+                .frame(maxWidth: .infinity)
+                .background(.gray)
+                .cornerRadius(15)
+                .padding()
             }
-            .frame(height: 300)
-            .frame(maxWidth: .infinity)
-            .background(.gray)
-            .cornerRadius(15)
-            .padding()
         }
     }
 }
