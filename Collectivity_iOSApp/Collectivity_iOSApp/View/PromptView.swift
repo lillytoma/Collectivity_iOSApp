@@ -71,30 +71,34 @@ struct PromptView: View {
                         //.padding()
                         
                     }
-
-                        Button(){
-                            isShowingRecordJournal.toggle()
-                        }label:{
-                            Text("Record Journal")
-                                .padding()
-                                .padding(.horizontal)
-                                .background(getActivityColor(category: prompt.category))
-                                .cornerRadius(10)
-                                .padding(.top, 30)
-                        }
-                        .sheet(isPresented: $isShowingRecordJournal) {
-                            RecordJournalView()
-                        }
                     
+                    
+                    
+                }
+                
+                Button(){
+                    isShowingRecordJournal.toggle()
+                }label:{
+                    Text("Record Journal")
+                        .padding()
+                        .padding(.horizontal)
+                        .background(getActivityColor(category: prompt.category))
+                        .cornerRadius(10)
+                        .padding(.top, 30)
+                }
+                .sheet(isPresented: $isShowingRecordJournal) {
+                    RecordJournalView(prompt: prompt, color: getActivityColor(category: prompt.category))
                 }
             }
             
-            .ignoresSafeArea()
-            .background(Color(UIColor.systemGray6))
+            
         }
+        .ignoresSafeArea()
+        .background(Color(UIColor.systemGray6))
+
     }
 }
 
-//#Preview {
-//    PromptView(prompt:)
-//}
+#Preview {
+    PromptView(prompt: PromptsInformation[0])
+}

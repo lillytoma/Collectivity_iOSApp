@@ -18,8 +18,8 @@ struct RecordJournalView: View {
     @State private var recordingDuration = 55
     @State private var recordingDate = Date()
 
-    var promptSummary = "Identify your energy levels in group settings."
-    var promptDetail = "How do you feel after group activities? Does the group dynamic affect your energy positively or negatively?"
+    var prompt: Prompt
+    var color: Color?
 
     var body: some View {
         VStack {
@@ -34,16 +34,16 @@ struct RecordJournalView: View {
                     Spacer()
                 }
 
-                Text("Self Awareness")
+                Text(prompt.category.rawValue)
                     .font(.title2)
                     .fontWeight(.semibold)
 
-                Text(promptSummary)
+                Text(prompt.name)
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
             }
             .padding()
-            .background(Color.purple.opacity(0.15))
+            .background(color ?? Color.purple.opacity(0.15))
             Capsule()
                 .fill(Color.gray.opacity(0.4))
                 .frame(width: 40, height: 5)
@@ -59,11 +59,12 @@ struct RecordJournalView: View {
                         .padding(.trailing)
                 }
             }
-            Text(promptDetail)
+            if let journalReflection = prompt.infoArray.filter({$0.nameOfCategory == .journalReflection}).first {
+                Text("\(journalReflection.descriptionOfCategory)")
                 .multilineTextAlignment(.leading)
                 .padding(.horizontal)
                 .padding(.bottom)
-
+                }
             Spacer()
 
             if isTyping {
@@ -75,7 +76,7 @@ struct RecordJournalView: View {
             } else if hasRecording {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text(promptSummary)
+                        Text(prompt.name)
                             .fontWeight(.medium)
                         Spacer()
                         Text(durationFormatted())
@@ -118,6 +119,7 @@ struct RecordJournalView: View {
                     VStack(spacing: 8) {
                         Image(systemName: isRecording ? "mic.fill" : "mic")
                             .resizable()
+                            .scaledToFit()
                             .frame(width: 60, height: 60)
                             .foregroundColor(isRecording ? .red : .blue)
 
@@ -134,7 +136,7 @@ struct RecordJournalView: View {
                 Text("Save Journal")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.purple.opacity(0.3))
+                    .background(color ?? Color.purple.opacity(0.3))
                     .foregroundColor(.black)
                     .font(.headline)
                     .cornerRadius(10)
@@ -161,5 +163,5 @@ struct RecordJournalView: View {
 
 
 #Preview {
-    RecordJournalView()
+    RecordJournalView(prompt: PromptsInformation[0])
 }
