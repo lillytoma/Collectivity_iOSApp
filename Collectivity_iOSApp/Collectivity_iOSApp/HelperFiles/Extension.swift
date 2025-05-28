@@ -11,3 +11,16 @@ import SwiftUI
 extension Notification.Name {
     static let playbackFinished = Notification.Name("playbackFinished")
 }
+
+extension PromptView {
+    func getActivityColor(category: categories) -> Color {
+        switch category{
+        case .Communication:
+            return .commC
+        case .Empathy:
+            return .empathyC
+        case .Awareness:
+            return .awareC
+        }
+    }
+}

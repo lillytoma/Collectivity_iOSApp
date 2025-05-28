@@ -22,12 +22,9 @@ struct Reflections: View {
     var body: some View {
         
         NavigationStack{
-            NavigationLink(){
-                Text("empty")
-                //Log()
-            }label:{
+            
                 SectionTitle(title: "Reflections")
-            }
+            NavigationLink(destination: Text("Empty")){
                 VStack{
                     Text(pinnedReflections.isEmpty || pinnedReflections.count < index  ? "" : pinnedReflections[index].name)
                         .frame(maxWidth: .infinity)
@@ -52,6 +49,7 @@ struct Reflections: View {
                 .background(.gray)
                 .cornerRadius(15)
                 .padding()
+            }
         }
         .onReceive(timer.autoconnect()){ time in
             if !reflections.isEmpty && index < pinnedReflections.count - 1 {

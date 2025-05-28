@@ -14,7 +14,6 @@ struct PromptView: View {
     @State var prompt: Prompt
     @State var isShowing: Bool = false
     var body: some View {
-        
         ScrollView{
             ZStack{
                 
@@ -35,41 +34,42 @@ struct PromptView: View {
             .padding()
             .background(getActivityColor(category: prompt.category))
             VStack{
-                Text("\(prompt.desc)")
                 
                 
                 Text("More Information")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 ForEach(prompt.infoArray.indices, id:\.self){ index in
-                    VStack(){
-                        Button{
-                            
-                            prompt.infoArray[index].isShowing.toggle()
-                        }label: {
-                            HStack{
-                                Text("\(prompt.infoArray[index].nameOfCategory)".capitalized)
-                                    .foregroundStyle(.black)
-                                Spacer()
-
-                                Image(systemName: prompt.infoArray[index].isShowing ? "chevron.up" : "chevron.down")
-                                    .foregroundStyle(.black)
+                    if prompt.infoArray[index].nameOfCategory != .journalReflection{
+                        VStack(){
+                            Button{
+                                
+                                prompt.infoArray[index].isShowing.toggle()
+                            }label: {
+                                HStack{
+                                    Text("\(prompt.infoArray[index].nameOfCategory.rawValue  )")
+                                        .foregroundStyle(.black)
+                                    Spacer()
+                                    
+                                    Image(systemName: prompt.infoArray[index].isShowing ? "chevron.up" : "chevron.down")
+                                        .foregroundStyle(.black)
+                                }
                             }
+                            .padding()
+                            if(prompt.infoArray[index].isShowing){
+                                Divider()
+                                Text("\(prompt.infoArray[index].descriptionOfCategory)")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                            }
+                            
                         }
-                        .padding()
-                        if(prompt.infoArray[index].isShowing){
-                            Divider()
-                            Text("\(prompt.infoArray[index].descriptionOfCategory)")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding()
-                        }
+                        .background(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        //.padding()
                         
                     }
-                    .background(.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    //.padding()
-                    
                 }
                 Text("Record Journal")
                     .padding()
@@ -82,18 +82,8 @@ struct PromptView: View {
         .ignoresSafeArea()
         .background(Color(UIColor.systemGray6))
     }
-    func getActivityColor(category: categories) -> Color {
-        switch category{
-        case .Communication:
-            return .commC
-        case .Empathy:
-            return .empathyC
-        case .Awareness:
-            return .awareC
-        }
-    }
 }
 
-#Preview {
-    PromptView(prompt: Prompt(name: "Practice Active Listening", category: .Communication))
-}
+//#Preview {
+//    PromptView(prompt:)
+//}
