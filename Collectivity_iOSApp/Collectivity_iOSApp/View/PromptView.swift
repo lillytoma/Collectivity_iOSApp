@@ -95,7 +95,7 @@ struct PromptView: View {
         }
         .ignoresSafeArea()
         .background(Color(UIColor.systemGray6))
-
+        .modifier(navModifier())
     }
 }
 

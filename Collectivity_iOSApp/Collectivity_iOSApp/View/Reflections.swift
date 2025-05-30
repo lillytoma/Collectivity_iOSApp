@@ -26,27 +26,36 @@ struct Reflections: View {
                 SectionTitle(title: "Reflections")
             NavigationLink(destination: Text("Empty")){
                 VStack{
+                   if !pinnedReflections.isEmpty{
                     Text(pinnedReflections.isEmpty || pinnedReflections.count < index  ? "" : pinnedReflections[index].name)
                         .frame(maxWidth: .infinity)
                         .frame(maxHeight: 100)
                         .padding(.horizontal)
                         .border(.red)
-                    HStack{
-                        ForEach(pinnedReflections){ pos in
-                            Circle()
-                                .fill(pinnedReflections.firstIndex(of: pos) == index ? .white : .clear)
-                                .stroke(.black, lineWidth: 5)
-                                .scaledToFit()
-                                .padding()
+                        HStack{
+                            ForEach(pinnedReflections){ pos in
+                                Circle()
+                                    .fill(pinnedReflections.firstIndex(of: pos) == index ? .white : .clear)
+                                    .stroke(.black, lineWidth: 5)
+                                    .scaledToFit()
+                                    .padding()
+                            }
                         }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .border(.green)
+                       
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .border(.green)
+                   }else{
+                       Image(systemName: "plus")
+                           .padding()
+                           .foregroundStyle(.black)
+                       Text("Add pinned reflections")
+                           .foregroundStyle(.black)
+                   }
                 }
                 .frame(height: 150)
                 .frame(maxWidth: .infinity)
-                .background(.gray)
+                .background(pinnedReflections.isEmpty ? .clear :.white)
                 .cornerRadius(15)
                 .padding()
             }

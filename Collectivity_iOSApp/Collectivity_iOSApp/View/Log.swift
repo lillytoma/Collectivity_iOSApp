@@ -20,8 +20,8 @@
 //                .font(.title)
 //            Button{
 //                if text.isEmpty {return}
-//                let reflection = Reflection(name: text)
-//                context.insert(reflection)
+//                //let reflection = Reflection(name: text)
+//                //context.insert(reflection)
 //                text = ""
 //            }label: {
 //                Image(systemName: "plus")

@@ -17,6 +17,9 @@ struct RecordJournalView: View {
     @State private var hasRecording = false
     @State private var recordingDuration = 55
     @State private var recordingDate = Date()
+    @State var recording: Recording?
+    
+    @StateObject private var audioRecorder = AudioRecorder()
 
     var prompt: Prompt
     var color: Color?
@@ -94,7 +97,7 @@ struct RecordJournalView: View {
                         }
 
                         Button(action: {
-                            hasRecording = false
+                            //
                         }) {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
@@ -110,6 +113,19 @@ struct RecordJournalView: View {
             } else {
                 Button(action: {
                     isRecording.toggle()
+                    
+//                    // trigger Haptic Feedback
+//                    let impactMed = UIImpactFeedbackGenerator(style: .medium)
+//                    impactMed.impactOccurred()
+//                    
+//                    if isRecording {
+//                        audioRecorder.startRecording()
+//                    } else {
+//                        audioRecorder.stopRecording()
+//                        audioRecorder.stopPlayback()
+//                        audioRecorder.fetchRecordings()
+//                    }
+                    
                     if isRecording == false {
                         hasRecording = true
                         recordingDate = Date()

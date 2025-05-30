@@ -22,9 +22,8 @@ enum basicInfo: String, Codable{
 @Observable class User{
     static let data = User()
 
-    var navTitle: String = "Collectivity"
+    var navTitle: String = ""
     
-    var gratificationPrompt: String = GratificationPrompts[0]
     var dailyGratification : [String] = ["","",""]
     
     var prompts: [Prompt] = [
@@ -39,10 +38,6 @@ enum basicInfo: String, Codable{
     var selectedPrompt: categories?
     
     private init() {}
-    
-    func AppTitle() {
-        self.navTitle = "Collectivity"
-    }
 }
 
 

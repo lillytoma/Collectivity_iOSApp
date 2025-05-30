@@ -10,7 +10,9 @@ import SwiftUI
 import SwiftData
 import Combine
 
-
+let GratificationPrompts: [String] = [
+    
+]
 
 @Model class Reflection {
     var name: String = ""
@@ -18,12 +20,13 @@ import Combine
     let prompt: Prompt
     //var date: Date
     
-    var recording: Recording?
-    var entry: String = ""
+    var recording: Recording
+    var writing: String = ""
     
-    init(name: String, prompt: Prompt) {
+    init(name: String, prompt: Prompt, recording: Recording) {
         self.name = name
         self.prompt = prompt
+        self.recording = recording
     }
 }
 
