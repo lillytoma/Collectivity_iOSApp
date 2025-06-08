@@ -19,28 +19,27 @@ enum basicInfo: String, Codable{
     case suggestion = "Suggestion", pros = "Pros", cons = "Cons", funFact = "Fun Fact", journalReflection = "Journal Reflection"
 }
 
-@Observable class User{
-    static let data = User()
-
+//
+@Model
+class User{
     var navTitle: String = "Collectivity"
     
     var gratificationPrompt: String = GratificationPrompts[0]
     var dailyGratification : [String] = ["","",""]
     
+    var reflections: [Reflection] = []
+    
     var prompts: [Prompt] = [
         PromptsInformation.filter{$0.category == .Communication}[0],
         PromptsInformation.filter{$0.category == .Awareness}[0],
         PromptsInformation.filter{$0.category == .Empathy}[0]
-        //Prompt(name: "Remind someone to smile more", category: .Communication),
-       // Prompt(name: "Ask someone how their day is going", category: .Empathy),
-       // Prompt(name: "Read the body language of the next person you talk to", category: .Awareness)
     ]
     
     var selectedPrompt: categories?
     
-    private init() {}
+   init() {}
     
-    func AppTitle() {
+    func AppT() {
         self.navTitle = "Collectivity"
     }
 }
@@ -48,15 +47,20 @@ enum basicInfo: String, Codable{
 
 
 struct Prompt: Identifiable, Codable{
-    var id: UUID = UUID()
+    
+    var id: String = UUID().uuidString
     let category: categories
     var isComplete: Bool = false
     let name: String
     var infoArray: [infoStruct]
+    //let url: String
+    var currentRecording: Recording?
+    
     init(category: categories, name: String, infoArray: [infoStruct]) {
         self.category = category
         self.name = name
         self.infoArray = infoArray
+       // self.url = "Recording_\(id)_\(category).m4a"
     }
 }
 @Observable

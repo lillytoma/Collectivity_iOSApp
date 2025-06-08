@@ -12,7 +12,13 @@ import Combine
 
 
 
-@Model class Reflection {
+//@Model
+@Observable class Reflection: Codable, Identifiable, Equatable{
+    static func == (lhs: Reflection, rhs: Reflection) -> Bool {
+        lhs.id == rhs.id 
+    }
+    
+    let id: UUID = UUID()
     var name: String = ""
     var pinned: Bool = false
     let prompt: Prompt

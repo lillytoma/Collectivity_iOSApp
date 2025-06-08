@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Prompts: View {
-    let data = User.data
+    var user: User
     
     var body: some View {
         NavigationStack{
@@ -17,7 +17,7 @@ struct Prompts: View {
             ScrollView(.horizontal){
                 HStack(){
                     //TabView{
-                    ForEach(data.prompts){ prompt in
+                    ForEach(user.prompts){ prompt in
                         NavigationLink(destination: PromptView(prompt: prompt)){
                             VStack{
                                 Text("\(prompt.category.rawValue)")
@@ -59,5 +59,5 @@ struct Prompts: View {
 }
 
 #Preview {
-    Prompts()
+    Prompts(user: User())
 }

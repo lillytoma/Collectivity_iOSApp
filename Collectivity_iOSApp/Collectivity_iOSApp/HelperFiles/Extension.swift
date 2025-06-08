@@ -24,3 +24,22 @@ extension PromptView {
         }
     }
 }
+
+//extension RecordJournalView{
+//    private func handlePlayAction(for recording: Recording) {
+//        if currentlyPlaying == recording.url {
+//            audioRecorder.stopRecording()
+//            currentlyPlaying = nil
+//        } else {
+//            audioRecorder.playRecording(url: recording.url) { success in
+//                if success {
+//                    currentlyPlaying = recording.url
+//                }
+//            }
+//        }
+//    }
+//    
+//    private func handleDeleteAction(for recording: Recording) {
+//        audioRecorder.deleteRecording(url: recording.url)
+//    }
+//}

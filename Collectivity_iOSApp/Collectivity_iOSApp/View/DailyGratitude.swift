@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DailyGratitude: View {
-    let user: User
+    var user: User
     
     var body: some View {
         NavigationStack{
             
             SectionTitle(title: "Daily Gratification")
-            NavigationLink(destination: GratificationView(text: user.dailyGratification)){
+            NavigationLink(destination: GratificationView(text: user.dailyGratification, user: user)){
                 
                 VStack {
                     Text("\(user.gratificationPrompt)")
@@ -64,5 +64,5 @@ struct DailyGratitude: View {
 }
 
 #Preview {
-    DailyGratitude(user: User.data)
+    DailyGratitude(user: User())
 }

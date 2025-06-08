@@ -14,6 +14,6 @@ struct Collectivity_iOSApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Reflection.self)
+        .modelContainer(for: User.self)
     }
 }

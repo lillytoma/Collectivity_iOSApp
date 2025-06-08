@@ -21,9 +21,9 @@ struct RecordingRow: View{
         HStack{
             //recording Info
             VStack(alignment: .leading, spacing: 5){
-                Text("No. \(recording.sequence)")
-                    .font(.headline)
-                    .foregroundColor(.white)
+                //Text("No. \(recording.sequence)")
+                 //   .font(.headline)
+                 //   .foregroundColor(.white)
                 Text(recording.formattedDate)
                     .font(.subheadline)
                     .foregroundColor(.white)

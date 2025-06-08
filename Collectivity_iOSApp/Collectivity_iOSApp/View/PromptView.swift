@@ -10,7 +10,8 @@ import SwiftData
 
 
 struct PromptView: View {
-    let user = User.data
+    //var user: User
+    
     @State var prompt: Prompt
     @State var isShowing: Bool = false
     @State var isShowingRecordJournal: Bool = false

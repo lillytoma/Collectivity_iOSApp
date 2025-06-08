@@ -6,14 +6,16 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 
 
 struct GratificationView: View{
     @Environment(\.dismiss) var dismiss
-    var userData = User.data
+    
     @State var text: [String]
+    @State var user: User
+    
     
     let today = Date.now
     var body: some View {
@@ -29,7 +31,7 @@ struct GratificationView: View{
                         Text("\(today.formatted(date: .long, time:.omitted))".uppercased())
                             .font(.caption)
                         
-                        Text("\(userData.gratificationPrompt)")
+                        Text("\(user.gratificationPrompt)")
                         
                     }
                 }
@@ -39,7 +41,7 @@ struct GratificationView: View{
                 .padding()
                 .background(.gblue)
                 
-                ForEach(userData.dailyGratification.indices, id: \.self){ dg in
+                ForEach(user.dailyGratification.indices, id: \.self){ dg in
                     TextField("I'm grateful for..." ,text: $text[dg])
                         .modifier(GratitudeModifier(hasText: text[dg].isEmpty))
                         .onChange(of: text[dg].isEmpty){ con in
@@ -48,7 +50,7 @@ struct GratificationView: View{
                             }
                         }
                         .onChange(of: text[dg]){
-                            userData.dailyGratification[dg] = text[dg]
+                            user.dailyGratification[dg] = text[dg]
                         }
                 }
                 
@@ -74,7 +76,7 @@ struct GratificationView: View{
 
 
 #Preview {
-    GratificationView(text: ["","",""])
+    GratificationView(text: ["","",""], user: User())
 }
 
 
