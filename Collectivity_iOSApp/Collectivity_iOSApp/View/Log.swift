@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct Log: View {
-    @Environment(\.modelContext) private var context
-    @Query private var reflections: [Reflection]
+    @Environment(\.modelContext) var context
+    var user: User
     
     @State private var text: String = ""
     
@@ -20,8 +20,9 @@ struct Log: View {
                 .font(.title)
             Button{
                 if text.isEmpty {return}
-                let reflection = Reflection(name: text)
-                context.insert(reflection)
+                let reflection = Reflection(name: text, prompt: PromptsInformation[0])
+                user.reflections.append(reflection)
+                //context.insert(reflection)
                 text = ""
             }label: {
                 Image(systemName: "plus")
@@ -29,18 +30,23 @@ struct Log: View {
             }
         }
         .padding()
-        List(reflections){ reflection in
+        List(user.reflections, id: \.id){ reflection in
             HStack{
                 Text(reflection.name)
                 Spacer()
                 Image(systemName: !reflection.pinned ? "bookmark" : "bookmark.fill")
                     .onTapGesture {
-                        reflection.pinned.toggle()
+                        if let idx = user.reflections.firstIndex(of: reflection) {
+                            user.reflections[idx].pinned.toggle()
+                        }
+                         
                     }
             }
             .swipeActions(){
                 Button("Delete",systemImage: "trash",role: .destructive){
-                    context.delete(reflection)
+                    if let pos = user.reflections.firstIndex(of: reflection) {
+                        user.reflections.remove(at: pos)
+                    }
                 }
             }
             .padding()
@@ -50,5 +56,5 @@ struct Log: View {
 }
 
 #Preview {
-    Log()
+    Log(user: User())
 }

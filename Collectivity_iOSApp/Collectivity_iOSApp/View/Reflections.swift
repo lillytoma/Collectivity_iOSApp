@@ -6,71 +6,81 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct Reflections: View {
-    @Environment(\.modelContext) private var context
-    @Query var reflections: [Reflection]
-    
     var timer = Timer.publish(every: 3, on: .main, in: .common)
     
+    @State var user: User
     @State var viewLog: Bool = false
     @State var index: Int = 0
+    @State var reflections: [Reflection] = []
     @State var pinnedReflections: [Reflection] = []
     @State var windowTouched: Bool = false
     
     var body: some View {
         
         NavigationStack{
-            NavigationLink(){
-                Log()
-            }label:{
-                SectionTitle(title: "Reflections")
-            }
+            
+            SectionTitle(title: "Reflections")
+            NavigationLink(destination: Log(user: user)){
                 VStack{
+                   if !pinnedReflections.isEmpty{
+                       
                     Text(pinnedReflections.isEmpty || pinnedReflections.count < index  ? "" : pinnedReflections[index].name)
                         .frame(maxWidth: .infinity)
                         .frame(maxHeight: 100)
                         .padding(.horizontal)
                         .border(.red)
-                    HStack{
-                        ForEach(pinnedReflections){ pos in
-                            Circle()
-                                .fill(pinnedReflections.firstIndex(of: pos) == index ? .white : .clear)
-                                .stroke(.black, lineWidth: 5)
-                                .scaledToFit()
-                                .padding()
+                       
+                        HStack{
+                            ForEach(pinnedReflections, id: \.name ){ pos in
+                                Circle()
+                                    .fill(pinnedReflections.firstIndex(of: pos) == index ? .white : .clear)
+                                    .stroke(.black, lineWidth: 5)
+                                    .scaledToFit()
+                                    .padding()
+                            }
                         }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .border(.green)
+                       
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .border(.green)
+                   }else{
+                       Image(systemName: "plus")
+                           .padding()
+                           .foregroundStyle(.black)
+                       Text("Add pinned reflections")
+                           .foregroundStyle(.black)
+                   }
                 }
                 .frame(height: 150)
                 .frame(maxWidth: .infinity)
-                .background(.gray)
+                .background(pinnedReflections.isEmpty ? .clear :.white)
                 .cornerRadius(15)
                 .padding()
+            }
         }
         .onReceive(timer.autoconnect()){ time in
-            if !reflections.isEmpty && index < pinnedReflections.count - 1 {
-                index += 1
-            }else {
+            if !user.reflections.isEmpty && index < pinnedReflections.count - 1 {
+                withAnimation {
+                    index += 1
+                }
+            } else {
                 index = 0
             }
         }
-        .onReceive(reflections.filter{$0.pinned}.publisher){ group in
-            pinnedReflections = reflections.filter{$0.pinned}
+        .onReceive(user.reflections.filter{$0.pinned}.publisher){ group in
+            pinnedReflections = user.reflections.filter{$0.pinned}
             if index >= pinnedReflections.count {
                 index = 0
             }
         }
-        .onAppear(){
-            pinnedReflections = reflections.filter{$0.pinned}
+        .onAppear {
+            pinnedReflections = user.reflections.filter{$0.pinned}
         }
     }
 }
 
 #Preview {
-    Reflections()
+    Reflections(user: User())
 }

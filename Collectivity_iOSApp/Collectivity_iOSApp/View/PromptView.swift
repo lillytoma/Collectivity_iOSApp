@@ -10,59 +10,96 @@ import SwiftData
 
 
 struct PromptView: View {
-    let user = User.data
-    let prompt: Prompt
-    //@State var isShowing: Bool = false
+    //var user: User
+    
+    @State var prompt: Prompt
+    @State var isShowing: Bool = false
+    @State var isShowingRecordJournal: Bool = false
     var body: some View {
-        VStack{
-            Text("\(prompt.desc)")
-            
-            Text("Reflection")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-            Button{
+        ScrollView{
+            ZStack{
                 
-            }label:{
-                Rectangle()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 100)
-                    .cornerRadius(10)
-                    .foregroundStyle(.gblue)
-                    .padding()
+                VStack(spacing: 15){
+                    Text("\(prompt.category)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    //Text("\(today.formatted(date: .long, time:.omitted))")
+                        .font(.caption)
+                    
+                    Text("\(prompt.name)")
+                    
+                }
             }
-            Text("More Information")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-            ForEach(prompt.infoArray){ info in
-                @State var isShowing: Bool = false
-                VStack{
-                    HStack{
-                        Text("\(info.nameOfCategory)")
-                        Spacer()
-                        Button{
-                            //info.isShowing.toggle()
-                        }label:{
-                            Image(systemName: info.isShowing ? "chevron.down" : "chevron.right")
+            .frame(maxWidth: .infinity)
+            .padding(.top, 50)
+            .padding(.bottom, 35)
+            .padding()
+            .background(getActivityColor(category: prompt.category))
+            VStack{
+                
+                
+                Text("More Information")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                ForEach(prompt.infoArray.indices, id:\.self){ index in
+                    if prompt.infoArray[index].nameOfCategory != .journalReflection{
+                        VStack(){
+                            Button{
+                                
+                                prompt.infoArray[index].isShowing.toggle()
+                            }label: {
+                                HStack{
+                                    Text("\(prompt.infoArray[index].nameOfCategory.rawValue  )")
+                                        .foregroundStyle(.black)
+                                    Spacer()
+                                    
+                                    Image(systemName: prompt.infoArray[index].isShowing ? "chevron.up" : "chevron.down")
+                                        .foregroundStyle(.black)
+                                }
+                            }
+                            .padding()
+                            if(prompt.infoArray[index].isShowing){
+                                Divider()
+                                Text("\(prompt.infoArray[index].descriptionOfCategory)")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                            }
                             
                         }
+                        .background(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        //.padding()
                         
                     }
-                    .padding(.vertical)
-                    if(isShowing == true){
-                        Text("\(info.descriptionOfCategory)")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                        
+                    
+                    
+                    
                 }
                 
-                
-                .padding()
+                Button(){
+                    isShowingRecordJournal.toggle()
+                }label:{
+                    Text("Record Journal")
+                        .padding()
+                        .padding(.horizontal)
+                        .background(getActivityColor(category: prompt.category))
+                        .cornerRadius(10)
+                        .padding(.top, 30)
+                }
+                .sheet(isPresented: $isShowingRecordJournal) {
+                    RecordJournalView(prompt: prompt, color: getActivityColor(category: prompt.category))
+                }
             }
+            
+            
         }
-        
+        .ignoresSafeArea()
+        .background(Color(UIColor.systemGray6))
+        .modifier(navModifier())
     }
 }
 
 #Preview {
-    PromptView(prompt: Prompt(name: "Communication", category: .communication))
+    PromptView(prompt: PromptsInformation[0])
 }
