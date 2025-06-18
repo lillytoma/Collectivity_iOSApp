@@ -1,7 +1,7 @@
 # Collectivity
 
 *(On Test Flight)*
-
+![Image](https://github.com/user-attachments/assets/6567af0a-89f6-4e67-ba5a-b8fbad1dc669)
 A personal growth application designed to strengthen communities by developing individual skills in empathy, communication, self-awareness, and gratitude. Collectivity transforms personal development into meaningful community impact through guided daily practice and skill-building activities.
 
 
